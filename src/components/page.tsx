@@ -43,7 +43,9 @@ export class PageComponent extends React.Component<IPageComponentDescriptor> {
                             (this.props.selectedTab === TabType.TRAINING_TAB ? " active" : "")}
                             onClick={this.props.handlers.clickTrainingTab}>Training</div>
                     </div>
-                    {this.detectComponent(this.props.selectedTab)}
+                    <div className="content-container">
+                        {this.detectComponent(this.props.selectedTab)}
+                    </div>
                 </div>
             </React.Fragment>
         );

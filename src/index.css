@@ -1,9 +1,45 @@
+button {
+    background-color: #b5e0c3;
+    border: none;
+    color: #474B24;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 12px;
+    border-radius: 8px;
+    border: 1px solid #B7C0C3;
+}
+button:hover {
+    background-color: #ffffff;
+    color: black;
+    cursor: pointer;
+}
+button[disabled] {
+    background-color: #e3e3e3;
+    color: #a4a4a4;
+}
+
+input[type=text] {
+    width: 100%;
+    padding: 3px 5px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 2px solid gray;
+}
+
 /* page.tsx styles */
+.header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+}
 
 .main-container {
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: 30px 1fr;
+    box-sizing: content-box;
 }
 
 .tabs-container {
@@ -11,7 +47,7 @@
     height: 30px;
     grid-template-columns: auto auto;
     justify-content: start;
-    box-sizing: border-box;
+    box-sizing: content-box;
     bottom: -1px;
     z-index: 2;
     position: relative;
@@ -49,9 +85,66 @@
     border-collapse: collapse;
     border-spacing: 0px;
     border-radius: 0 8px 8px 8px;
-    box-sizing: border-box;
-    height: 400px;
+    box-sizing: content-box;
     z-index: 0;
+    box-shadow: 3px 3px 2px gray;
+}
+/* ****** */
+
+/* uploadin-page.tsx styles */
+.uploading-container {
+    height: 500px;
 }
 
+.uploading-container textarea {
+    min-width: 300px;
+    width: 500px;
+    max-width: 800px;
+    min-height: 100px;
+    height: 300px;
+    max-height: 400px;
+    margin: 5px 0;
+}
+/* ****** */
+
+/* statistics.tsx styles */
+.statistics-container {
+    margin: 0 20px 0 50px;
+}
+/* ****** */
+
+/* training.tsx styles */
+.training-container {
+    box-sizing: content-box;
+    height: 490px;
+    
+}
+
+.card-container {
+    border: 1px solid black;
+    width: 300px;
+    height: 200px;
+    box-shadow: 3px 3px 2px gray;
+    box-sizing: content-box;
+    margin: 10px auto;
+}
+
+.card-container .title {
+    padding: 5px 10px;
+    background-color: #C1CAD6;
+    color: #474B24;
+}
+.card-container .simple-synonym {
+    padding: 5px 10px;
+    text-align: center;
+}
+.card-container .answer {
+    padding: 5px 10px;
+    text-align: center;
+}
+
+.card-container .check-button {
+    padding: 5px 10px;
+    text-align: right;
+}
 /* ****** */

@@ -2,23 +2,28 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Action, Dispatch } from "redux";
 
+import { Actions } from "../state/actions";
 import { ICombinedReducersEntries } from "../state/reducers";
 import { TabType } from "../types/enums";
+import { WordEntry } from "../types/word-entry";
+import { StatisticsComponent } from "./statistics";
 import { TrainingPageComponent } from "./training-page";
 import { UploadingPageComponent } from "./uploading-page";
-import { Actions } from "../state/actions";
 
 interface IPageComponentProps {
     selectedTab?: TabType
+    wordEntries?: WordEntry[];
 }
 
-interface IpageComponentHandlers {
+interface IPageComponentHandlers {
     clickUploadingTab: () => void;
     clickTrainingTab: () => void;
+    clickUploadWordsButton: (words?: string) => void;
+    clickAnswerButton: (id?: string, answer?: string) => void;
 }
 
 interface IPageComponentHandlersWrapper {
-    handlers: IpageComponentHandlers
+    handlers: IPageComponentHandlers
 }
 
 interface IPageComponentDescriptor extends IPageComponentProps, IPageComponentHandlersWrapper {
@@ -32,8 +37,10 @@ export class PageComponent extends React.Component<IPageComponentDescriptor> {
     public render() {
         return (
             <React.Fragment>
-                <h1>Thesaurus Trainer</h1>
-
+                <div className="header-container">
+                    <h1>Thesaurus Trainer</h1>
+                    <StatisticsComponent wordEntries={this.props.wordEntries} />
+                </div>
                 <div className="main-container">
                     <div className="tabs-container">
                         <div className={"tab-uploading grid-item" +
@@ -54,10 +61,17 @@ export class PageComponent extends React.Component<IPageComponentDescriptor> {
     private detectComponent(tabType?: TabType): any {
         switch (tabType) {
             case TabType.TRAINING_TAB:
-                return (<TrainingPageComponent />);
+                return (
+                    <TrainingPageComponent
+                        wordEntries={this.props.wordEntries}
+                        clickCheckButtonHandler={this.props.handlers.clickAnswerButton} />
+                );
             case TabType.UPLOADING_TAB:
             default:
-                return (<UploadingPageComponent />);
+                return (
+                    <UploadingPageComponent
+                        clickUploadButtonHandler={this.props.handlers.clickUploadWordsButton} />
+                );
         }
     }
 }
@@ -65,6 +79,7 @@ export class PageComponent extends React.Component<IPageComponentDescriptor> {
 const mapReduxStateToComponentProps: (state: ICombinedReducersEntries) => IPageComponentProps = (state) => {
     return {
         selectedTab: state ? state.appReducer.selectedTab : undefined,
+        wordEntries: state ? state.appReducer.wordEntries : undefined,
     };
 };
 
@@ -72,8 +87,15 @@ const mapComponentEventsToReduxDispatches: (dispatch: Dispatch<Action<number>>) 
     (dispatch) => {
         return {
             handlers: {
+                clickAnswerButton: (id?: string, answer?: string) => {
+console.log(id)
+console.log(answer)
+                },
                 clickUploadingTab: () => {
                     dispatch(Actions.app.pickUploadingTab());
+                },
+                clickUploadWordsButton: (words?: string) => {
+                    dispatch(Actions.app.clickUploadBtn(words));
                 },
                 clickTrainingTab: () => {
                     dispatch(Actions.app.pickTrainingTab());

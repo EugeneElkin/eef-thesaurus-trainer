@@ -148,3 +148,12 @@ input[type=text] {
     text-align: right;
 }
 /* ****** */
+
+/* answer-log.tsx styles */
+.answers-log-container .answer-log-item span.true {
+    color: green;
+}
+.answers-log-container .answer-log-item span.false {
+    color: red;
+}
+/* ****** */

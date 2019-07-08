@@ -1,7 +1,7 @@
 import { Action } from "redux";
 
 import { DataTransferService } from "../services/data-transfer-service";
-import { WordEntry } from "../types/word-entry";
+import { IWordEntry } from "../types/i-word-entry";
 
 export interface IAppAction extends Action<number> {
     value?: any;
@@ -12,33 +12,33 @@ export enum AppActionType {
     PICK_UPLOADING_TAB = 1,
     PICK_TRAINING_TAB,
     CLICK_CHECK_ANSWER_BTN,
+    SET_WORD_ENTIRES,
 }
 
 const app = {
-    clickCheckAnswerBtn: (id: string, isAnswered: boolean) => {
+    clickCheckAnswerBtn: (id: string, isAnswered: boolean, answer: string) => {
         return {
             type: AppActionType.CLICK_CHECK_ANSWER_BTN,
             value: {
+                answer: answer,
                 id: id,
                 isAnswered: isAnswered,
             },
         }
     },
-    clickUploadBtn: (words?: string) => {
-        const entries: WordEntry[] = DataTransferService.parseWords(words);
-        return {
+    clickUploadBtn: (words?: string) => ({
             type: AppActionType.CLICK_UPLOAD_BTN,
-            value: {
-                current: DataTransferService.getRandomWordEntry(entries),
-                entries: entries,
-            }
-        }
-    },
+            value: words,
+    }),
     pickUploadingTab: () => ({
         type: AppActionType.PICK_UPLOADING_TAB,
     }),
     pickTrainingTab: () => ({
         type: AppActionType.PICK_TRAINING_TAB,
+    }),
+    setWordEntries: (wordEntries: IWordEntry[]) => ({
+        type: AppActionType.SET_WORD_ENTIRES,
+        value: wordEntries,
     }),
 };
 

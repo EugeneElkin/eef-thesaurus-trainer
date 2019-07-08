@@ -1,11 +1,14 @@
 import * as React from "react";
 
+import { IAnswerEntry } from "../types/i-answer-entry";
 import { IValueDescriptor } from "../types/i-value-descriptor";
-import { WordEntry } from "../types/word-entry";
+import { IWordEntry } from "../types/i-word-entry";
+import { AnswersLogComponent } from "./answers-log";
 
 export interface ITrainingPageComponentProps {
-    wordEntry?: WordEntry;
-    clickCheckButtonHandler: (id: string, isAnswered: boolean) => void;
+    answersLog: IAnswerEntry[];
+    wordEntry?: IWordEntry;
+    clickCheckButtonHandler: (id: string, isAnswered: boolean, answer: string) => void;
 }
 
 interface ITrainingPageComponentState {
@@ -13,7 +16,7 @@ interface ITrainingPageComponentState {
 }
 
 export class TrainingPageComponent extends React.Component<ITrainingPageComponentProps, ITrainingPageComponentState> {
-    constructor(props: any) {
+    constructor(props: ITrainingPageComponentProps) {
         super(props);
 
         this.state = {
@@ -25,6 +28,7 @@ export class TrainingPageComponent extends React.Component<ITrainingPageComponen
 
         this.handleAnswerWasChanged = this.handleAnswerWasChanged.bind(this);
         this.proceedAnswer = this.proceedAnswer.bind(this);
+        this.detectEnterAndProceedAnswer = this.detectEnterAndProceedAnswer.bind(this);
     }
 
     public componentDidMount() {
@@ -44,6 +48,7 @@ export class TrainingPageComponent extends React.Component<ITrainingPageComponen
                         <input
                             type="text"
                             onChange={this.handleAnswerWasChanged}
+                            onKeyPress={this.detectEnterAndProceedAnswer}
                             value={this.state.answer.value} />
                     </div>
                     <div className="check-button">
@@ -53,8 +58,15 @@ export class TrainingPageComponent extends React.Component<ITrainingPageComponen
                         >Check</button>
                     </div>
                 </div>
+                <AnswersLogComponent log={this.props.answersLog} />
             </div>
         );
+    }
+
+    private detectEnterAndProceedAnswer(event: React.KeyboardEvent<HTMLInputElement>): void {
+        if (event.key == 'Enter') {
+            this.proceedAnswer();
+        }
     }
 
     private proceedAnswer(): void {
@@ -67,7 +79,7 @@ export class TrainingPageComponent extends React.Component<ITrainingPageComponen
         const isAnswered: boolean = randomLeft.includes(this.state.answer.value);
 
         // TODO: add effects then waiter and then proceed.
-        this.props.clickCheckButtonHandler(targetEntryId, isAnswered);
+        this.props.clickCheckButtonHandler(targetEntryId, isAnswered, this.state.answer.value);
 
         this.setState((state, props) => ({
             answer: {

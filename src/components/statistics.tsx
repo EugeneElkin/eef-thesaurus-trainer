@@ -1,8 +1,8 @@
 import * as React from "react";
-import { WordEntry } from "../types/word-entry";
+import { IWordEntry } from "../types/i-word-entry";
 
 interface IStatisticsComponentProps {
-    wordEntries?: WordEntry[];
+    wordEntries?: IWordEntry[];
 }
 
 export class StatisticsComponent extends React.Component<IStatisticsComponentProps> {

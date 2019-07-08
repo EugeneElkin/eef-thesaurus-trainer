@@ -2,25 +2,29 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Action, Dispatch } from "redux";
 
+import { DataTransferService } from "../services/data-transfer-service";
 import { Actions } from "../state/actions";
 import { ICombinedReducersEntries } from "../state/reducers";
 import { TabType } from "../types/enums";
-import { WordEntry } from "../types/word-entry";
+import { IAnswerEntry } from "../types/i-answer-entry";
+import { IWordEntry } from "../types/i-word-entry";
 import { StatisticsComponent } from "./statistics";
 import { TrainingPageComponent } from "./training-page";
 import { UploadingPageComponent } from "./uploading-page";
 
 interface IPageComponentProps {
+    answersLog: IAnswerEntry[];
+    currentQuestion?: IWordEntry;
     selectedTab?: TabType
-    wordEntries?: WordEntry[];
-    currentQuestion?: WordEntry;
+    wordEntries?: IWordEntry[];
 }
 
 interface IPageComponentHandlers {
     clickUploadingTab: () => void;
     clickTrainingTab: () => void;
     clickUploadWordsButton: (words?: string) => void;
-    clickAnswerButton: (id: string, isAnswered: boolean) => void;
+    clickAnswerButton: (id: string, isAnswered: boolean, answer: string) => void;
+    setWordEntries: (wordEntries: IWordEntry[]) => void;
 }
 
 interface IPageComponentHandlersWrapper {
@@ -33,6 +37,12 @@ interface IPageComponentDescriptor extends IPageComponentProps, IPageComponentHa
 export class PageComponent extends React.Component<IPageComponentDescriptor> {
     constructor(props: IPageComponentDescriptor) {
         super(props);
+    }
+
+    public componentDidMount() {
+        DataTransferService.loadWordEntries().then((result) => {
+            this.props.handlers.setWordEntries(result);
+        });
     }
 
     public render() {
@@ -64,6 +74,7 @@ export class PageComponent extends React.Component<IPageComponentDescriptor> {
             case TabType.TRAINING_TAB:
                 return (
                     <TrainingPageComponent
+                        answersLog={this.props.answersLog}
                         wordEntry={this.props.currentQuestion}
                         clickCheckButtonHandler={this.props.handlers.clickAnswerButton} />
                 );
@@ -79,6 +90,7 @@ export class PageComponent extends React.Component<IPageComponentDescriptor> {
 
 const mapReduxStateToComponentProps: (state: ICombinedReducersEntries) => IPageComponentProps = (state) => {
     return {
+        answersLog: state ? state.appReducer.answersLog : [],
         currentQuestion: state ? state.appReducer.currentQuestion : undefined,
         selectedTab: state ? state.appReducer.selectedTab : undefined,
         wordEntries: state ? state.appReducer.wordEntries : undefined,
@@ -89,8 +101,8 @@ const mapComponentEventsToReduxDispatches: (dispatch: Dispatch<Action<number>>) 
     (dispatch) => {
         return {
             handlers: {
-                clickAnswerButton: (id: string, isAnswered: boolean) => {
-                    dispatch(Actions.app.clickCheckAnswerBtn(id, isAnswered));
+                clickAnswerButton: (id: string, isAnswered: boolean, answer: string) => {
+                    dispatch(Actions.app.clickCheckAnswerBtn(id, isAnswered, answer));
                 },
                 clickUploadingTab: () => {
                     dispatch(Actions.app.pickUploadingTab());
@@ -101,6 +113,9 @@ const mapComponentEventsToReduxDispatches: (dispatch: Dispatch<Action<number>>) 
                 clickTrainingTab: () => {
                     dispatch(Actions.app.pickTrainingTab());
                 },
+                setWordEntries: (wordEntries: IWordEntry[]) => {
+                    dispatch(Actions.app.setWordEntries(wordEntries));
+                }
             },
         };
     };

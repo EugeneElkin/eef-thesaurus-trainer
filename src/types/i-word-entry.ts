@@ -1,4 +1,4 @@
-export interface WordEntry {
+export interface IWordEntry {
     id: string;
     left: string[];
     right: string[];

@@ -49,11 +49,8 @@ export class DataTransferService {
         return targetEntry;
     }
 
-    public static saveWordEntries(entries: IWordEntry[]): Promise<void> { 
-        return new Promise((resolve, reject) => {
-            localStorage.setItem(this.wordEntriesKey, JSON.stringify(entries));
-            resolve();
-        });
+    public static saveWordEntries(entries: IWordEntry[]): void {
+        localStorage.setItem(this.wordEntriesKey, JSON.stringify(entries));
     }
 
     public static loadWordEntries(): Promise<IWordEntry[]> {

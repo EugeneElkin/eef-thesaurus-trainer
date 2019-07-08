@@ -47,15 +47,16 @@ const appReducer: Reducer = (state: IAppReduxState = initialAppReducerState, act
 
             return newState;
         case AppActionType.CLICK_NEW_ROUND_BTN:
-            (() => {
+            return function() {
                 let entries: IWordEntry[] = DataMutationService.ResetCheckedUnansweredWords(state.wordEntries ? state.wordEntries : []);
+                DataTransferService.saveWordEntries(entries);
 
                 return {
                     ...state,
                     currentQuestion: DataTransferService.getRandomWordEntry(entries),
                     wordEntries: entries,
                 }
-            })();
+            }();
         case AppActionType.CLICK_UPLOAD_BTN:
             const entries: IWordEntry[] = DataTransferService.parseWords(action.value);
             DataTransferService.saveWordEntries(entries);

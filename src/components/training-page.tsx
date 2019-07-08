@@ -9,6 +9,7 @@ export interface ITrainingPageComponentProps {
     answersLog: IAnswerEntry[];
     wordEntry?: IWordEntry;
     clickCheckButtonHandler: (id: string, isAnswered: boolean, answer: string) => void;
+    clickNewRoundButtonHandler: () => void;
 }
 
 interface ITrainingPageComponentState {
@@ -41,6 +42,7 @@ export class TrainingPageComponent extends React.Component<ITrainingPageComponen
 
         return (
             <div className="training-container">
+                <button onClick={this.props.clickNewRoundButtonHandler}>New round</button>
                 <div className="card-container">
                     <div className="title">Card</div>
                     <p className="simple-synonym">{randomRight}</p>

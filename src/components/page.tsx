@@ -24,6 +24,7 @@ interface IPageComponentHandlers {
     clickTrainingTab: () => void;
     clickUploadWordsButton: (words?: string) => void;
     clickAnswerButton: (id: string, isAnswered: boolean, answer: string) => void;
+    clickNewRoundButton: () => void;
     setWordEntries: (wordEntries: IWordEntry[]) => void;
 }
 
@@ -76,7 +77,8 @@ export class PageComponent extends React.Component<IPageComponentDescriptor> {
                     <TrainingPageComponent
                         answersLog={this.props.answersLog}
                         wordEntry={this.props.currentQuestion}
-                        clickCheckButtonHandler={this.props.handlers.clickAnswerButton} />
+                        clickCheckButtonHandler={this.props.handlers.clickAnswerButton}
+                        clickNewRoundButtonHandler={this.props.handlers.clickNewRoundButton} />
                 );
             case TabType.UPLOADING_TAB:
             default:
@@ -103,6 +105,9 @@ const mapComponentEventsToReduxDispatches: (dispatch: Dispatch<Action<number>>) 
             handlers: {
                 clickAnswerButton: (id: string, isAnswered: boolean, answer: string) => {
                     dispatch(Actions.app.clickCheckAnswerBtn(id, isAnswered, answer));
+                },
+                clickNewRoundButton: () => {
+                    dispatch(Actions.app.clickNewRoundBtn());
                 },
                 clickUploadingTab: () => {
                     dispatch(Actions.app.pickUploadingTab());

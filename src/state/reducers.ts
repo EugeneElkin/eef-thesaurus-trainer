@@ -5,6 +5,7 @@ import { IWordEntry } from "../types/i-word-entry";
 import { AppActionType, IAppAction } from "./actions";
 import { DataTransferService } from "../services/data-transfer-service";
 import { IAnswerEntry } from "../types/i-answer-entry";
+import { DataMutationService } from "../services/data-mutation-service";
 
 interface IAppReduxState {
     answersLog: IAnswerEntry[];
@@ -44,8 +45,17 @@ const appReducer: Reducer = (state: IAppReduxState = initialAppReducerState, act
 
             newState.currentQuestion = current;
 
-
             return newState;
+        case AppActionType.CLICK_NEW_ROUND_BTN:
+            (() => {
+                let entries: IWordEntry[] = DataMutationService.ResetCheckedUnansweredWords(state.wordEntries ? state.wordEntries : []);
+
+                return {
+                    ...state,
+                    currentQuestion: DataTransferService.getRandomWordEntry(entries),
+                    wordEntries: entries,
+                }
+            })();
         case AppActionType.CLICK_UPLOAD_BTN:
             const entries: IWordEntry[] = DataTransferService.parseWords(action.value);
             DataTransferService.saveWordEntries(entries);

@@ -8,10 +8,11 @@ export interface IAppAction extends Action<number> {
 }
 
 export enum AppActionType {
+    CLICK_CHECK_ANSWER_BTN = 1,
+    CLICK_NEW_ROUND_BTN,
     CLICK_UPLOAD_BTN,
-    PICK_UPLOADING_TAB = 1,
+    PICK_UPLOADING_TAB,
     PICK_TRAINING_TAB,
-    CLICK_CHECK_ANSWER_BTN,
     SET_WORD_ENTIRES,
 }
 
@@ -26,9 +27,12 @@ const app = {
             },
         }
     },
+    clickNewRoundBtn: () => ({
+        type: AppActionType.CLICK_NEW_ROUND_BTN
+    }),
     clickUploadBtn: (words?: string) => ({
-            type: AppActionType.CLICK_UPLOAD_BTN,
-            value: words,
+        type: AppActionType.CLICK_UPLOAD_BTN,
+        value: words,
     }),
     pickUploadingTab: () => ({
         type: AppActionType.PICK_UPLOADING_TAB,

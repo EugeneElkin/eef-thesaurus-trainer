@@ -36,4 +36,16 @@ export class DataTransferService {
 
         return entries;
     }
+
+    public static getRandomWordEntry(wordEntries?: WordEntry[]): WordEntry | undefined {
+        const uncheckedEntries: WordEntry[] = wordEntries
+            ? wordEntries.filter(ent => !ent.isChecked)
+            : [];
+        const unckeckedNum: number = uncheckedEntries.length;
+
+        const randomIndex: number = unckeckedNum > 0 ? Math.floor(Math.random() * (unckeckedNum)) : -1;
+        const targetEntry: WordEntry | undefined = randomIndex !== -1 ? uncheckedEntries[randomIndex] : undefined;
+
+        return targetEntry;
+    }
 }

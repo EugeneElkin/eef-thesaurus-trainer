@@ -3,6 +3,7 @@ import { combineReducers, Reducer } from "redux";
 import { TabType } from "../types/enums";
 import { WordEntry } from "../types/word-entry";
 import { AppActionType, IAppAction } from "./actions";
+import { DataTransferService } from "../services/data-transfer-service";
 
 interface IAppReduxState {
     selectedTab?: TabType;
@@ -19,10 +20,25 @@ const initialAppReducerState: IAppReduxState = {
 
 const appReducer: Reducer = (state: IAppReduxState = initialAppReducerState, action: IAppAction): IAppReduxState => {
     switch (action.type) {
-        case AppActionType.CLIK_UPLOAD_BTN:
+        case AppActionType.CLICK_CHECK_ANSWER_BTN:
+            const newState: IAppReduxState = { ...state };
+            const wordEntries: WordEntry[] = newState.wordEntries ? newState.wordEntries : [];
+            const targetEntry: WordEntry | undefined = wordEntries.find(ent => ent.id === action.value.id);
+
+            if (targetEntry) {
+                targetEntry.isChecked = true;
+                targetEntry.isAnswered = action.value.isAnswered;
+            }
+
+            const current: WordEntry | undefined = DataTransferService.getRandomWordEntry(newState.wordEntries);
+            newState.currentQuestion = current;
+
+            return newState;
+        case AppActionType.CLICK_UPLOAD_BTN:
             return {
                 ...state,
-                wordEntries: action.value,
+                currentQuestion: action.value.current,
+                wordEntries: action.value.entries,
             }
         case AppActionType.PICK_UPLOADING_TAB:
             return {
@@ -34,11 +50,6 @@ const appReducer: Reducer = (state: IAppReduxState = initialAppReducerState, act
                 ...state,
                 selectedTab: TabType.TRAINING_TAB,
             };
-        case AppActionType.SET_CURRENT_QUESTION:
-            return {
-                ...state,
-                currentQuestion: action.value,
-            }
         default:
             return state;
     }

@@ -4,9 +4,8 @@ import { IValueDescriptor } from "../types/i-value-descriptor";
 import { WordEntry } from "../types/word-entry";
 
 export interface ITrainingPageComponentProps {
-    wordEntries?: WordEntry[];
-    clickCheckButtonHandler: (id?: string, answer?: string) => void;
-    setCurrentQuestion?: () => void;
+    wordEntry?: WordEntry;
+    clickCheckButtonHandler: (id: string, isAnswered: boolean) => void;
 }
 
 interface ITrainingPageComponentState {
@@ -20,45 +19,62 @@ export class TrainingPageComponent extends React.Component<ITrainingPageComponen
         this.state = {
             answer: {
                 isValid: true,
+                value: undefined,
             },
         };
 
         this.handleAnswerWasChanged = this.handleAnswerWasChanged.bind(this);
+        this.proceedAnswer = this.proceedAnswer.bind(this);
     }
 
     public componentDidMount() {
-        
+
     }
 
     public render() {
-        const uncheckedEntries: WordEntry[] = this.props.wordEntries
-            ? this.props.wordEntries.filter(ent => !ent.isChecked)
-            : [];
-        const unckeckedNum: number = uncheckedEntries.length;
 
-        const randomIndex: number = unckeckedNum > 0 ? Math.floor(Math.random() * (unckeckedNum)) : -1;
-        const targetEntry: WordEntry | undefined = randomIndex !== -1 ? uncheckedEntries[randomIndex] : undefined;
-
-        const targetEntryId: string | undefined = targetEntry ? targetEntry.id : undefined;
-        const ramdomRight: string = targetEntry ? targetEntry.right.join(", ") : "-- none --";
+        const randomRight: string = this.props.wordEntry ? this.props.wordEntry.right.join(", ") : "-- none --";
 
         return (
             <div className="training-container">
                 <div className="card-container">
                     <div className="title">Card</div>
-                    <p className="simple-synonym">{ramdomRight}</p>
+                    <p className="simple-synonym">{randomRight}</p>
                     <div className="answer">
-                        <input type="text" onChange={this.handleAnswerWasChanged} />
+                        <input
+                            type="text"
+                            onChange={this.handleAnswerWasChanged}
+                            value={this.state.answer.value} />
                     </div>
                     <div className="check-button">
                         <button
-                            disabled={typeof targetEntry === 'undefined'}
-                            onClick={() => { this.props.clickCheckButtonHandler(targetEntryId, this.state.answer.value) }}
+                            disabled={typeof this.props.wordEntry === 'undefined'}
+                            onClick={this.proceedAnswer}
                         >Check</button>
                     </div>
                 </div>
             </div>
         );
+    }
+
+    private proceedAnswer(): void {
+        if (!this.props.wordEntry || !this.state.answer.value) {
+            return;
+        }
+
+        const randomLeft: string[] = this.props.wordEntry.left;
+        const targetEntryId: string = this.props.wordEntry.id;
+        const isAnswered: boolean = randomLeft.includes(this.state.answer.value);
+
+        // TODO: add effects then waiter and then proceed.
+        this.props.clickCheckButtonHandler(targetEntryId, isAnswered);
+
+        this.setState((state, props) => ({
+            answer: {
+                isValid: true,
+                value: "",
+            },
+        }));
     }
 
     private handleAnswerWasChanged(event: React.ChangeEvent<HTMLInputElement>): void {

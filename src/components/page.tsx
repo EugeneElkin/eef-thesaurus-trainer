@@ -13,13 +13,14 @@ import { UploadingPageComponent } from "./uploading-page";
 interface IPageComponentProps {
     selectedTab?: TabType
     wordEntries?: WordEntry[];
+    currentQuestion?: WordEntry;
 }
 
 interface IPageComponentHandlers {
     clickUploadingTab: () => void;
     clickTrainingTab: () => void;
     clickUploadWordsButton: (words?: string) => void;
-    clickAnswerButton: (id?: string, answer?: string) => void;
+    clickAnswerButton: (id: string, isAnswered: boolean) => void;
 }
 
 interface IPageComponentHandlersWrapper {
@@ -63,7 +64,7 @@ export class PageComponent extends React.Component<IPageComponentDescriptor> {
             case TabType.TRAINING_TAB:
                 return (
                     <TrainingPageComponent
-                        wordEntries={this.props.wordEntries}
+                        wordEntry={this.props.currentQuestion}
                         clickCheckButtonHandler={this.props.handlers.clickAnswerButton} />
                 );
             case TabType.UPLOADING_TAB:
@@ -78,6 +79,7 @@ export class PageComponent extends React.Component<IPageComponentDescriptor> {
 
 const mapReduxStateToComponentProps: (state: ICombinedReducersEntries) => IPageComponentProps = (state) => {
     return {
+        currentQuestion: state ? state.appReducer.currentQuestion : undefined,
         selectedTab: state ? state.appReducer.selectedTab : undefined,
         wordEntries: state ? state.appReducer.wordEntries : undefined,
     };
@@ -87,9 +89,8 @@ const mapComponentEventsToReduxDispatches: (dispatch: Dispatch<Action<number>>) 
     (dispatch) => {
         return {
             handlers: {
-                clickAnswerButton: (id?: string, answer?: string) => {
-console.log(id)
-console.log(answer)
+                clickAnswerButton: (id: string, isAnswered: boolean) => {
+                    dispatch(Actions.app.clickCheckAnswerBtn(id, isAnswered));
                 },
                 clickUploadingTab: () => {
                     dispatch(Actions.app.pickUploadingTab());

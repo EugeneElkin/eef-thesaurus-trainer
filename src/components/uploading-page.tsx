@@ -26,8 +26,9 @@ export class UploadingPageComponent extends React.Component<IUploadingPageCompon
     public render() {
         return (
             <div className="uploading-container">
-                <div>Put word constructions in the following format:</div>
-                <div>complex synonym 1[, complex synonym 2][, ...] -- simple synonym 1[, simple synonym 2][, ...]</div>
+                <p>Put word constructions in the following format:</p>
+                <p>complex synonym 1[, complex synonym 2][, ...] -- simple synonym 1[, simple synonym 2][, ...]</p>
+                <p className="warn">!!! A word construction that is started with "~" symbol will be ignored</p>
                 <div>
                     <textarea
                         value={this.state.rawText.value}

@@ -10,6 +10,10 @@ export class DataTransferService {
             const lines: string[] = words.split("\n");
 
             for (let i: number = 0; i < lines.length; i++) {
+                if (lines[i][0] === "~") {
+                    continue;
+                }
+
                 const sides: string[] = lines[i].split("--");
                 if (sides.length < 2) {
                     continue;

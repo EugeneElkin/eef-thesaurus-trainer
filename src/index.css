@@ -95,7 +95,6 @@ input[type=text] {
 .uploading-container {
     height: 500px;
 }
-
 .uploading-container textarea {
     min-width: 300px;
     width: 500px;
@@ -104,6 +103,12 @@ input[type=text] {
     height: 300px;
     max-height: 400px;
     margin: 5px 0;
+}
+.uploading-container p {
+    margin: 3px 0;
+}
+.uploading-container p.warn {
+    color: #ac7e01;
 }
 /* ****** */
 

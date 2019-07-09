@@ -75,13 +75,14 @@ export class TrainingPageComponent extends React.Component<ITrainingPageComponen
         if (!this.props.wordEntry || !this.state.answer.value) {
             return;
         }
+        const answer: string = this.state.answer.value.trim();
 
         const randomLeft: string[] = this.props.wordEntry.left;
         const targetEntryId: string = this.props.wordEntry.id;
-        const isAnswered: boolean = randomLeft.includes(this.state.answer.value);
+        const isAnswered: boolean = randomLeft.includes(answer);
 
         // TODO: add effects then waiter and then proceed.
-        this.props.clickCheckButtonHandler(targetEntryId, isAnswered, this.state.answer.value);
+        this.props.clickCheckButtonHandler(targetEntryId, isAnswered, answer);
 
         this.setState((state, props) => ({
             answer: {

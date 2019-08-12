@@ -1,9 +1,9 @@
 import * as React from "react";
 
-import { IAnswerEntry } from "../types/i-answer-entry";
-import { IValueDescriptor } from "../types/i-value-descriptor";
-import { IWordEntry } from "../types/i-word-entry";
-import { AnswersLogComponent } from "./answers-log";
+import { IAnswerEntry } from "../../types/i-answer-entry";
+import { IValueDescriptor } from "../../types/i-value-descriptor";
+import { IWordEntry } from "../../types/i-word-entry";
+import { AnswersLogComponent } from "../answers-log";
 
 export interface ITrainingPageComponentProps {
     answersLog: IAnswerEntry[];

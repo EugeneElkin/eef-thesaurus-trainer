@@ -10,10 +10,6 @@ export class DataTransferService {
             const lines: string[] = words.split("\n");
 
             for (let i: number = 0; i < lines.length; i++) {
-                if (lines[i][0] === "~") {
-                    continue;
-                }
-
                 const sides: string[] = lines[i].split("--");
                 if (sides.length < 2) {
                     continue;
@@ -31,7 +27,8 @@ export class DataTransferService {
                     left: leftWords.map(w => w.trim()),
                     right: rightWords.map(w => w.trim()),
                     isAnswered: false,
-                    isChecked: false
+                    isChecked: false,
+                    isIgnored: lines[i][0] === "~",
                 };
 
                 entries.push(wordEntry);
@@ -43,7 +40,7 @@ export class DataTransferService {
 
     public static getRandomWordEntry(wordEntries?: IWordEntry[]): IWordEntry | undefined {
         const uncheckedEntries: IWordEntry[] = wordEntries
-            ? wordEntries.filter(ent => !ent.isChecked)
+            ? wordEntries.filter(ent => !ent.isChecked && !ent.isIgnored)
             : [];
         const unckeckedNum: number = uncheckedEntries.length;
 

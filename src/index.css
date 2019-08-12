@@ -45,7 +45,7 @@ input[type=text] {
 .tabs-container {
     display: grid;
     height: 30px;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto auto auto;
     justify-content: start;
     box-sizing: content-box;
     bottom: -1px;
@@ -92,9 +92,6 @@ input[type=text] {
 /* ****** */
 
 /* uploadin-page.tsx styles */
-.uploading-container {
-    height: 500px;
-}
 .uploading-container textarea {
     min-width: 300px;
     width: 500px;
@@ -118,11 +115,9 @@ input[type=text] {
 }
 /* ****** */
 
-/* training.tsx styles */
+/* training-page.tsx styles */
 .training-container {
     box-sizing: content-box;
-    height: 490px;
-    
 }
 
 .card-container {
@@ -151,6 +146,16 @@ input[type=text] {
 .card-container .check-button {
     padding: 5px 10px;
     text-align: right;
+}
+/* ****** */
+
+/* ignored-words-page.tsx styles */
+.ignored-words-container .log-item {
+    color: green;
+}
+
+.log-item .left {
+    color: rgb(83, 83, 83);
 }
 /* ****** */
 

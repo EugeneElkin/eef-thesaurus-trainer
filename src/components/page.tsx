@@ -9,8 +9,9 @@ import { TabType } from "../types/enums";
 import { IAnswerEntry } from "../types/i-answer-entry";
 import { IWordEntry } from "../types/i-word-entry";
 import { StatisticsComponent } from "./statistics";
-import { TrainingPageComponent } from "./training-page";
-import { UploadingPageComponent } from "./uploading-page";
+import { TrainingPageComponent } from "./pages/training-page";
+import { UploadingPageComponent } from "./pages/uploading-page";
+import { IgnoredWordsPageComponent } from "./pages/ignored-words-page";
 
 interface IPageComponentProps {
     answersLog: IAnswerEntry[];
@@ -20,6 +21,7 @@ interface IPageComponentProps {
 }
 
 interface IPageComponentHandlers {
+    clickIgnoredWordsTab: () => void;
     clickUploadingTab: () => void;
     clickTrainingTab: () => void;
     clickUploadWordsButton: (words?: string) => void;
@@ -61,6 +63,9 @@ export class PageComponent extends React.Component<IPageComponentDescriptor> {
                         <div className={"tab-training grid-item" +
                             (this.props.selectedTab === TabType.TRAINING_TAB ? " active" : "")}
                             onClick={this.props.handlers.clickTrainingTab}>Training</div>
+                        <div className={"tab-ignored-words grid-item" +
+                            (this.props.selectedTab === TabType.IGNOTED_WORDS_TAB ? " active" : "")}
+                            onClick={this.props.handlers.clickIgnoredWordsTab}>Ignored words</div>
                     </div>
                     <div className="content-container">
                         {this.detectComponent(this.props.selectedTab)}
@@ -79,6 +84,11 @@ export class PageComponent extends React.Component<IPageComponentDescriptor> {
                         wordEntry={this.props.currentQuestion}
                         clickCheckButtonHandler={this.props.handlers.clickAnswerButton}
                         clickNewRoundButtonHandler={this.props.handlers.clickNewRoundButton} />
+                );
+            case TabType.IGNOTED_WORDS_TAB:
+                return (
+                    <IgnoredWordsPageComponent
+                        ignoredWords={this.props.wordEntries ? this.props.wordEntries.filter(x => x.isIgnored) : [] } />
                 );
             case TabType.UPLOADING_TAB:
             default:
@@ -105,6 +115,9 @@ const mapComponentEventsToReduxDispatches: (dispatch: Dispatch<Action<number>>) 
             handlers: {
                 clickAnswerButton: (id: string, isAnswered: boolean, answer: string) => {
                     dispatch(Actions.app.clickCheckAnswerBtn(id, isAnswered, answer));
+                },
+                clickIgnoredWordsTab: () => {
+                    dispatch(Actions.app.pickIgnoredWordsTab());
                 },
                 clickNewRoundButton: () => {
                     dispatch(Actions.app.clickNewRoundBtn());

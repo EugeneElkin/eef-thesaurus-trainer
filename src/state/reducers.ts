@@ -47,7 +47,7 @@ const appReducer: Reducer = (state: IAppReduxState = initialAppReducerState, act
 
             return newState;
         case AppActionType.CLICK_NEW_ROUND_BTN:
-            return function() {
+            return function () {
                 let entries: IWordEntry[] = DataMutationService.ResetCheckedUnansweredWords(state.wordEntries ? state.wordEntries : []);
                 DataTransferService.saveWordEntries(entries);
 
@@ -66,6 +66,11 @@ const appReducer: Reducer = (state: IAppReduxState = initialAppReducerState, act
                 currentQuestion: DataTransferService.getRandomWordEntry(entries),
                 wordEntries: entries,
             }
+        case AppActionType.PICK_IGNORED_WORDS_TAB:
+            return {
+                ...state,
+                selectedTab: TabType.IGNOTED_WORDS_TAB,
+            };
         case AppActionType.PICK_UPLOADING_TAB:
             return {
                 ...state,

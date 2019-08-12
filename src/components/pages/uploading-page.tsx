@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { IValueDescriptor } from "../types/i-value-descriptor";
+import { IValueDescriptor } from "../../types/i-value-descriptor";
 
 interface IUploadingPageComponentProps {
     clickUploadButtonHandler: (words?: string) => void;

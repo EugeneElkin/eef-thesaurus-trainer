@@ -11,6 +11,7 @@ export enum AppActionType {
     CLICK_CHECK_ANSWER_BTN = 1,
     CLICK_NEW_ROUND_BTN,
     CLICK_UPLOAD_BTN,
+    PICK_IGNORED_WORDS_TAB,
     PICK_UPLOADING_TAB,
     PICK_TRAINING_TAB,
     SET_WORD_ENTIRES,
@@ -33,6 +34,9 @@ const app = {
     clickUploadBtn: (words?: string) => ({
         type: AppActionType.CLICK_UPLOAD_BTN,
         value: words,
+    }),
+    pickIgnoredWordsTab: () => ({
+        type: AppActionType.PICK_IGNORED_WORDS_TAB,
     }),
     pickUploadingTab: () => ({
         type: AppActionType.PICK_UPLOADING_TAB,

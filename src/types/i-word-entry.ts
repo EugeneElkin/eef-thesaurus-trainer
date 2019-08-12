@@ -4,4 +4,5 @@ export interface IWordEntry {
     right: string[];
     isChecked: boolean;
     isAnswered: boolean;
+    isIgnored: boolean;
 }

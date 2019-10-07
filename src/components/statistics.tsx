@@ -11,10 +11,10 @@ export class StatisticsComponent extends React.Component<IStatisticsComponentPro
     }
 
     public render() {
-        const activeWordEntries = this.props.wordEntries ? this.props.wordEntries.filter(ent => !ent.isIgnored) : [];
+        const activeWordEntries = this.props.wordEntries ? this.props.wordEntries.filter((ent) => !ent.isIgnored) : [];
         const wordsNumber: number = activeWordEntries.length;
-        const checkedWordsNum: number = activeWordEntries.filter(ent => ent.isChecked).length;
-        const answeredWordsNum: number = activeWordEntries.filter(ent => ent.isAnswered).length;
+        const checkedWordsNum: number = activeWordEntries.filter((ent) => ent.isChecked).length;
+        const answeredWordsNum: number = activeWordEntries.filter((ent) => ent.isAnswered).length;
         const successRate: number = checkedWordsNum === 0 ? 0 : answeredWordsNum / checkedWordsNum * 100;
 
         return (

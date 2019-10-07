@@ -32,10 +32,6 @@ export class TrainingPageComponent extends React.Component<ITrainingPageComponen
         this.detectEnterAndProceedAnswer = this.detectEnterAndProceedAnswer.bind(this);
     }
 
-    public componentDidMount() {
-
-    }
-
     public render() {
 
         const randomRight: string = this.props.wordEntry ? this.props.wordEntry.right.join(", ") : "-- none --";
@@ -55,7 +51,7 @@ export class TrainingPageComponent extends React.Component<ITrainingPageComponen
                     </div>
                     <div className="check-button">
                         <button
-                            disabled={typeof this.props.wordEntry === 'undefined'}
+                            disabled={typeof this.props.wordEntry === "undefined"}
                             onClick={this.proceedAnswer}
                         >Check</button>
                     </div>
@@ -66,7 +62,7 @@ export class TrainingPageComponent extends React.Component<ITrainingPageComponen
     }
 
     private detectEnterAndProceedAnswer(event: React.KeyboardEvent<HTMLInputElement>): void {
-        if (event.key == 'Enter') {
+        if (event.key === "Enter") {
             this.proceedAnswer();
         }
     }
@@ -97,7 +93,7 @@ export class TrainingPageComponent extends React.Component<ITrainingPageComponen
         this.setState((state, props) => ({
             answer: {
                 isValid: true,
-                value: value,
+                value,
             },
         }));
     }

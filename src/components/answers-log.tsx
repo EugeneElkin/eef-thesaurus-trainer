@@ -16,8 +16,10 @@ export class AnswersLogComponent extends React.Component<IAnswersLogComponentCom
         return (
             <div className="answers-log-container">
                 {
-                    log.map(logEntry =>
-                       (<div className="answer-log-item"><span className={logEntry.isAnswered ? "true" : "false"}>{logEntry.orig} -- {logEntry.answer}</span></div>)
+                    log.map((logEntry) =>
+                        (<div className="answer-log-item">
+                            <span className={logEntry.isAnswered ? "true" : "false"}>{logEntry.orig} -- {logEntry.answer}</span>
+                        </div>),
                     )
                 }
             </div>

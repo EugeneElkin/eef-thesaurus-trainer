@@ -7,7 +7,7 @@ interface IUploadingPageComponentProps {
 }
 
 interface IUploadingPageComponentState {
-    rawText: IValueDescriptor<string>
+    rawText: IValueDescriptor<string>;
 }
 
 export class UploadingPageComponent extends React.Component<IUploadingPageComponentProps, IUploadingPageComponentState> {
@@ -27,7 +27,7 @@ export class UploadingPageComponent extends React.Component<IUploadingPageCompon
         return (
             <div className="uploading-container">
                 <p>Put word constructions in the following format:</p>
-                <p>complex synonym 1[, complex synonym 2][, ...] -- simple synonym 1[, simple synonym 2][, ...]</p>
+                <p>complex synonym 1[, complex synonym 2][, ....] -- simple synonym 1[, simple synonym 2][, ....]</p>
                 <p className="warn">!!! A word construction that is started with "~" symbol will be ignored</p>
                 <div>
                     <textarea
@@ -48,7 +48,7 @@ export class UploadingPageComponent extends React.Component<IUploadingPageCompon
         this.setState((state, props) => ({
             rawText: {
                 isValid: true,
-                value: value,
+                value,
             },
         }));
     }

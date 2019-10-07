@@ -1,6 +1,4 @@
 import { Action } from "redux";
-
-import { DataTransferService } from "../services/data-transfer-service";
 import { IWordEntry } from "../types/i-word-entry";
 
 export interface IAppAction extends Action<number> {
@@ -18,35 +16,43 @@ export enum AppActionType {
 }
 
 const app = {
-    clickCheckAnswerBtn: (id: string, isAnswered: boolean, answer: string) => {
-        return {
-            type: AppActionType.CLICK_CHECK_ANSWER_BTN,
-            value: {
-                answer: answer,
-                id: id,
-                isAnswered: isAnswered,
-            },
-        }
-    },
-    clickNewRoundBtn: () => ({
-        type: AppActionType.CLICK_NEW_ROUND_BTN
+    clickCheckAnswerBtn: (rate: number, id: string, isAnswered: boolean, answer: string) => ({
+        type: AppActionType.CLICK_CHECK_ANSWER_BTN,
+        value: {
+            answer,
+            id,
+            isAnswered,
+            rate,
+        },
     }),
-    clickUploadBtn: (words?: string) => ({
+    clickNewRoundBtn: (rate: number) => ({
+        type: AppActionType.CLICK_NEW_ROUND_BTN,
+        value: {
+            rate,
+        },
+    }),
+    clickUploadBtn: (rate: number, words?: string) => ({
         type: AppActionType.CLICK_UPLOAD_BTN,
-        value: words,
+        value: {
+            rate,
+            words,
+        },
     }),
     pickIgnoredWordsTab: () => ({
         type: AppActionType.PICK_IGNORED_WORDS_TAB,
     }),
-    pickUploadingTab: () => ({
-        type: AppActionType.PICK_UPLOADING_TAB,
-    }),
     pickTrainingTab: () => ({
         type: AppActionType.PICK_TRAINING_TAB,
     }),
-    setWordEntries: (wordEntries: IWordEntry[]) => ({
+    pickUploadingTab: () => ({
+        type: AppActionType.PICK_UPLOADING_TAB,
+    }),
+    setWordEntries: (rate: number, wordEntries: IWordEntry[]) => ({
         type: AppActionType.SET_WORD_ENTIRES,
-        value: wordEntries,
+        value: {
+            rate,
+            wordEntries,
+        },
     }),
 };
 

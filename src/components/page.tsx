@@ -8,15 +8,15 @@ import { ICombinedReducersEntries } from "../state/reducers";
 import { TabType } from "../types/enums";
 import { IAnswerEntry } from "../types/i-answer-entry";
 import { IWordEntry } from "../types/i-word-entry";
-import { StatisticsComponent } from "./statistics";
+import { IgnoredWordsPageComponent } from "./pages/ignored-words-page";
 import { TrainingPageComponent } from "./pages/training-page";
 import { UploadingPageComponent } from "./pages/uploading-page";
-import { IgnoredWordsPageComponent } from "./pages/ignored-words-page";
+import { StatisticsComponent } from "./statistics";
 
 interface IPageComponentProps {
     answersLog: IAnswerEntry[];
     currentQuestion?: IWordEntry;
-    selectedTab?: TabType
+    selectedTab?: TabType;
     wordEntries?: IWordEntry[];
 }
 
@@ -31,7 +31,7 @@ interface IPageComponentHandlers {
 }
 
 interface IPageComponentHandlersWrapper {
-    handlers: IPageComponentHandlers
+    handlers: IPageComponentHandlers;
 }
 
 interface IPageComponentDescriptor extends IPageComponentProps, IPageComponentHandlersWrapper {
@@ -43,7 +43,7 @@ export class PageComponent extends React.Component<IPageComponentDescriptor> {
     }
 
     public componentDidMount() {
-        DataTransferService.loadWordEntries().then((result) => {
+        DataTransferService.LoadWordEntries().then((result) => {
             this.props.handlers.setWordEntries(result);
         });
     }
@@ -88,7 +88,7 @@ export class PageComponent extends React.Component<IPageComponentDescriptor> {
             case TabType.IGNOTED_WORDS_TAB:
                 return (
                     <IgnoredWordsPageComponent
-                        ignoredWords={this.props.wordEntries ? this.props.wordEntries.filter(x => x.isIgnored) : [] } />
+                        ignoredWords={this.props.wordEntries ? this.props.wordEntries.filter((x) => x.isIgnored) : [] } />
                 );
             case TabType.UPLOADING_TAB:
             default:
@@ -114,26 +114,26 @@ const mapComponentEventsToReduxDispatches: (dispatch: Dispatch<Action<number>>) 
         return {
             handlers: {
                 clickAnswerButton: (id: string, isAnswered: boolean, answer: string) => {
-                    dispatch(Actions.app.clickCheckAnswerBtn(id, isAnswered, answer));
+                    dispatch(Actions.app.clickCheckAnswerBtn(Math.random(), id, isAnswered, answer));
                 },
                 clickIgnoredWordsTab: () => {
                     dispatch(Actions.app.pickIgnoredWordsTab());
                 },
                 clickNewRoundButton: () => {
-                    dispatch(Actions.app.clickNewRoundBtn());
-                },
-                clickUploadingTab: () => {
-                    dispatch(Actions.app.pickUploadingTab());
-                },
-                clickUploadWordsButton: (words?: string) => {
-                    dispatch(Actions.app.clickUploadBtn(words));
+                    dispatch(Actions.app.clickNewRoundBtn(Math.random()));
                 },
                 clickTrainingTab: () => {
                     dispatch(Actions.app.pickTrainingTab());
                 },
+                clickUploadWordsButton: (words?: string) => {
+                    dispatch(Actions.app.clickUploadBtn(Math.random(), words));
+                },
+                clickUploadingTab: () => {
+                    dispatch(Actions.app.pickUploadingTab());
+                },
                 setWordEntries: (wordEntries: IWordEntry[]) => {
-                    dispatch(Actions.app.setWordEntries(wordEntries));
-                }
+                    dispatch(Actions.app.setWordEntries(Math.random(), wordEntries));
+                },
             },
         };
     };
@@ -142,4 +142,3 @@ export const ConnectedPageComponent: any = connect(
     mapReduxStateToComponentProps,
     mapComponentEventsToReduxDispatches,
 )(PageComponent);
-

@@ -1,10 +1,9 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Action, Dispatch } from "redux";
-
 import { DataTransferService } from "../services/data-transfer-service";
 import { Actions } from "../state/actions";
 import { ICombinedReducersEntries } from "../state/reducers";
+import { Thunks } from "../state/thunks";
 import { TabType } from "../types/enums";
 import { IAnswerEntry } from "../types/i-answer-entry";
 import { IWordEntry } from "../types/i-word-entry";
@@ -88,7 +87,7 @@ export class PageComponent extends React.Component<IPageComponentDescriptor> {
             case TabType.IGNOTED_WORDS_TAB:
                 return (
                     <IgnoredWordsPageComponent
-                        ignoredWords={this.props.wordEntries ? this.props.wordEntries.filter((x) => x.isIgnored) : [] } />
+                        ignoredWords={this.props.wordEntries ? this.props.wordEntries.filter((x) => x.isIgnored) : []} />
                 );
             case TabType.UPLOADING_TAB:
             default:
@@ -109,24 +108,33 @@ const mapReduxStateToComponentProps: (state: ICombinedReducersEntries) => IPageC
     };
 };
 
-const mapComponentEventsToReduxDispatches: (dispatch: Dispatch<Action<number>>) => IPageComponentHandlersWrapper =
+const mapComponentEventsToReduxDispatches: (dispatch: any) => IPageComponentHandlersWrapper =
     (dispatch) => {
         return {
             handlers: {
                 clickAnswerButton: (id: string, isAnswered: boolean, answer: string) => {
-                    dispatch(Actions.app.clickCheckAnswerBtn(Math.random(), id, isAnswered, answer));
+                    dispatch(Thunks.app.clickCheckAnswerBtn(Math.random(), id, isAnswered, answer))
+                        .then((wordEntries: IWordEntry[] | undefined) => {
+                            DataTransferService.SaveWordEntries(wordEntries ? wordEntries : []);
+                        });
                 },
                 clickIgnoredWordsTab: () => {
                     dispatch(Actions.app.pickIgnoredWordsTab());
                 },
                 clickNewRoundButton: () => {
-                    dispatch(Actions.app.clickNewRoundBtn(Math.random()));
+                    dispatch(Thunks.app.clickNewRoundBtn(Math.random()))
+                        .then((wordEntries: IWordEntry[] | undefined) => {
+                            DataTransferService.SaveWordEntries(wordEntries ? wordEntries : []);
+                        });
                 },
                 clickTrainingTab: () => {
                     dispatch(Actions.app.pickTrainingTab());
                 },
                 clickUploadWordsButton: (words?: string) => {
-                    dispatch(Actions.app.clickUploadBtn(Math.random(), words));
+                    dispatch(Thunks.app.clickUploadBtn(Math.random(), words))
+                        .then((wordEntries: IWordEntry[] | undefined) => {
+                            DataTransferService.SaveWordEntries(wordEntries ? wordEntries : []);
+                        });
                 },
                 clickUploadingTab: () => {
                     dispatch(Actions.app.pickUploadingTab());

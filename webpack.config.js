@@ -34,13 +34,13 @@ module.exports = {
     // assume a corresponding global variable exists and use that instead.
     // This is important because it allows us to avoid bundling all of our
     // dependencies, which allows browsers to cache those libraries between builds.
-    externals: {
-        "react": "React",
-        "react-dom": "ReactDOM",
-        "react-redux": "ReactRedux",
-        "redux": "Redux",
-        "axios": "axios"
-    },
+    // externals: {
+    //     "react": "React",
+    //     "react-dom": "ReactDOM",
+    //     "react-redux": "ReactRedux",
+    //     "redux": "Redux",
+    //     "axios": "axios"
+    // },
     plugins: [
         new HtmlWebpackPlugin({
             title: 'EEF Thesaurus Trainer',
@@ -58,31 +58,31 @@ module.exports = {
                 to: 'assets',
                 toType: 'dir'
             },
-            {
-                from: './node_modules/react/umd/react.production.min.js',
-                to: 'externals',
-                toType: 'dir'
-            },        
-            {
-                from: './node_modules/react-dom/umd/react-dom.production.min.js',
-                to: 'externals',
-                toType: 'dir'
-            },
-            {
-                from: './node_modules/react-redux/dist/react-redux.min.js',
-                to: 'externals',
-                toType: 'dir'
-            },
-            {
-                from: './node_modules/redux/dist/redux.min.js',
-                to: 'externals',
-                toType: 'dir'
-            },
-            {
-                from: './node_modules/axios/dist/axios.min.js',
-                to: 'externals',
-                toType: 'dir'
-            }
+            // {
+            //     from: './node_modules/react/umd/react.production.min.js',
+            //     to: 'externals',
+            //     toType: 'dir'
+            // },        
+            // {
+            //     from: './node_modules/react-dom/umd/react-dom.production.min.js',
+            //     to: 'externals',
+            //     toType: 'dir'
+            // },
+            // {
+            //     from: './node_modules/react-redux/dist/react-redux.min.js',
+            //     to: 'externals',
+            //     toType: 'dir'
+            // },
+            // {
+            //     from: './node_modules/redux/dist/redux.min.js',
+            //     to: 'externals',
+            //     toType: 'dir'
+            // },
+            // {
+            //     from: './node_modules/axios/dist/axios.min.js',
+            //     to: 'externals',
+            //     toType: 'dir'
+            // }
         ])
     ],
     devServer: {

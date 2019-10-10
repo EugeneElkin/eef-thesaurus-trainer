@@ -1,6 +1,5 @@
 import { combineReducers, Reducer } from "redux";
 
-import { DataTransferService } from "../services/data-transfer-service";
 import { DataWorkshopService } from "../services/data-workshop-service";
 import { TabType } from "../types/enums";
 import { IAnswerEntry } from "../types/i-answer-entry";
@@ -43,15 +42,11 @@ const appReducer: Reducer = (currentState: IAppReduxState = initialAppReducerSta
             }
 
             const current: IWordEntry | undefined = DataWorkshopService.GetRandomWordEntry(action.value.rate, state.wordEntries);
-            // TODO: think how to move data saving out of a reducer
-            DataTransferService.SaveWordEntries(state.wordEntries ? state.wordEntries : []);
             state.currentQuestion = current;
             return state;
         },
         [AppActionType.CLICK_NEW_ROUND_BTN]: (state: IAppReduxState) => {
             const entries: IWordEntry[] = DataWorkshopService.ResetCheckedUnansweredWords(state.wordEntries ? state.wordEntries : []);
-            // TODO: think how to move data saving out of a reducer
-            DataTransferService.SaveWordEntries(entries);
             state.currentQuestion = DataWorkshopService.GetRandomWordEntry(action.value.rate, entries);
             state.wordEntries = entries;
             state.answersLog = [];
@@ -59,8 +54,6 @@ const appReducer: Reducer = (currentState: IAppReduxState = initialAppReducerSta
         },
         [AppActionType.CLICK_UPLOAD_BTN]: (state: IAppReduxState) => {
             const entries: IWordEntry[] = DataWorkshopService.ParseWords(action.value.words);
-            // TODO: think how to move data saving out of a reducer
-            DataTransferService.SaveWordEntries(entries);
             state.currentQuestion = DataWorkshopService.GetRandomWordEntry(action.value.rate, entries);
             state.wordEntries = entries;
             return state;

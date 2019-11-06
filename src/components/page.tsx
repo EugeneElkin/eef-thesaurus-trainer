@@ -11,22 +11,30 @@ import { IgnoredWordsPageComponent } from "./pages/ignored-words-page";
 import { TrainingPageComponent } from "./pages/training-page";
 import { UploadingPageComponent } from "./pages/uploading-page";
 import { StatisticsComponent } from "./statistics";
+import { IrregularWordsTrainingPageComponent } from "./pages/irrw-training-page";
+import { DataWorkshopService } from "../services/data-workshop-service";
+import { IRREGULAR_VERBS } from "../data/irregular-verbs";
 
 interface IPageComponentProps {
     answersLog: IAnswerEntry[];
+    currentIrrWord?: IWordEntry;
     currentQuestion?: IWordEntry;
+    irrAnswersLog: IAnswerEntry[];
     selectedTab?: TabType;
     wordEntries?: IWordEntry[];
 }
 
 interface IPageComponentHandlers {
     clickIgnoredWordsTab: () => void;
+    clickIrregularWordsTab: () => void;
     clickUploadingTab: () => void;
     clickTrainingTab: () => void;
     clickUploadWordsButton: (words?: string) => void;
     clickAnswerButton: (id: string, isAnswered: boolean, answer: string) => void;
+    clickIrrAnswerButton: (id: string, isAnswered: boolean, answer: string) => void;
     clickNewRoundButton: () => void;
     setWordEntries: (wordEntries: IWordEntry[]) => void;
+    setIrrWordEntries: (wordEntries: IWordEntry[]) => void;
 }
 
 interface IPageComponentHandlersWrapper {
@@ -45,6 +53,8 @@ export class PageComponent extends React.Component<IPageComponentDescriptor> {
         DataTransferService.LoadWordEntries().then((result) => {
             this.props.handlers.setWordEntries(result);
         });
+
+        this.props.handlers.setIrrWordEntries(DataWorkshopService.ParseWords(IRREGULAR_VERBS));
     }
 
     public render() {
@@ -64,7 +74,10 @@ export class PageComponent extends React.Component<IPageComponentDescriptor> {
                             onClick={this.props.handlers.clickTrainingTab}>Training</div>
                         <div className={"tab-ignored-words grid-item" +
                             (this.props.selectedTab === TabType.IGNOTED_WORDS_TAB ? " active" : "")}
-                            onClick={this.props.handlers.clickIgnoredWordsTab}>Ignored words</div>
+                            onClick={this.props.handlers.clickIgnoredWordsTab}>Ignored Words</div>
+                        <div className={"tab-irregular-words grid-item" +
+                            (this.props.selectedTab === TabType.IRREGULAR_WORDS_TAB ? " active" : "")}
+                            onClick={this.props.handlers.clickIrregularWordsTab}>Irregular Words</div>
                     </div>
                     <div className="content-container">
                         {this.detectComponent(this.props.selectedTab)}
@@ -84,6 +97,14 @@ export class PageComponent extends React.Component<IPageComponentDescriptor> {
                         clickCheckButtonHandler={this.props.handlers.clickAnswerButton}
                         clickNewRoundButtonHandler={this.props.handlers.clickNewRoundButton} />
                 );
+            case TabType.IRREGULAR_WORDS_TAB:
+                return (
+                    <IrregularWordsTrainingPageComponent
+                        answersLog={this.props.irrAnswersLog}
+                        wordEntry={this.props.currentIrrWord}
+                        clickCheckButtonHandler={this.props.handlers.clickIrrAnswerButton}
+                    />
+                );
             case TabType.IGNOTED_WORDS_TAB:
                 return (
                     <IgnoredWordsPageComponent
@@ -102,7 +123,9 @@ export class PageComponent extends React.Component<IPageComponentDescriptor> {
 const mapReduxStateToComponentProps: (state: ICombinedReducersEntries) => IPageComponentProps = (state) => {
     return {
         answersLog: state ? state.appReducer.answersLog : [],
+        currentIrrWord: state ? state.appReducer.currentIrrWord: undefined,
         currentQuestion: state ? state.appReducer.currentQuestion : undefined,
+        irrAnswersLog: state? state.appReducer.irrAnswerLog : [],
         selectedTab: state ? state.appReducer.selectedTab : undefined,
         wordEntries: state ? state.appReducer.wordEntries : undefined,
     };
@@ -118,8 +141,14 @@ const mapComponentEventsToReduxDispatches: (dispatch: any) => IPageComponentHand
                             DataTransferService.SaveWordEntries(wordEntries ? wordEntries : []);
                         });
                 },
+                clickIrrAnswerButton: (id: string, isAnswered: boolean, answer: string) => {
+                    dispatch(Actions.app.clickCheckIrrAnswerBtn(Math.random(), id, isAnswered, answer));
+                },
                 clickIgnoredWordsTab: () => {
                     dispatch(Actions.app.pickIgnoredWordsTab());
+                },
+                clickIrregularWordsTab: () => {
+                    dispatch(Actions.app.pickIrregularWordsTab());
                 },
                 clickNewRoundButton: () => {
                     dispatch(Thunks.app.clickNewRoundBtn(Math.random()))
@@ -138,6 +167,9 @@ const mapComponentEventsToReduxDispatches: (dispatch: any) => IPageComponentHand
                 },
                 clickUploadingTab: () => {
                     dispatch(Actions.app.pickUploadingTab());
+                },
+                setIrrWordEntries: (irrWordEntries: IWordEntry[]) => {
+                    dispatch(Actions.app.setIrrWordEntries(Math.random(), irrWordEntries));
                 },
                 setWordEntries: (wordEntries: IWordEntry[]) => {
                     dispatch(Actions.app.setWordEntries(Math.random(), wordEntries));

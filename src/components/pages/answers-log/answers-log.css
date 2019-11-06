@@ -1,0 +1,9 @@
+.answers-log-container .caption {
+    color: gray;
+}
+.answers-log-container .answer-log-item span.true {
+    color: green;
+}
+.answers-log-container .answer-log-item span.false {
+    color: red;
+}

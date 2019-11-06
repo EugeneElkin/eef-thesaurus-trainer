@@ -3,7 +3,7 @@ import * as React from "react";
 import { IAnswerEntry } from "../../types/i-answer-entry";
 import { IValueDescriptor } from "../../types/i-value-descriptor";
 import { IWordEntry } from "../../types/i-word-entry";
-import { AnswersLogComponent } from "../answers-log";
+import { AnswersLogComponent } from "./answers-log/answers-log";
 
 export interface ITrainingPageComponentProps {
     answersLog: IAnswerEntry[];
@@ -23,7 +23,7 @@ export class TrainingPageComponent extends React.Component<ITrainingPageComponen
         this.state = {
             answer: {
                 isValid: true,
-                value: undefined,
+                value: "",
             },
         };
 

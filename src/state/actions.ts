@@ -7,17 +7,29 @@ export interface IAppAction extends Action<number> {
 
 export enum AppActionType {
     CLICK_CHECK_ANSWER_BTN = 1,
+    CLICK_CHECK_IRR_ANSWER_BTN,
     CLICK_NEW_ROUND_BTN,
     CLICK_UPLOAD_BTN,
     PICK_IGNORED_WORDS_TAB,
+    PICK_IRREGULAR_WORDS_TAB,
     PICK_UPLOADING_TAB,
     PICK_TRAINING_TAB,
+    SET_IRR_WORD_ENTIRES,
     SET_WORD_ENTIRES,
 }
 
 const app = {
     clickCheckAnswerBtn: (rate: number, id: string, isAnswered: boolean, answer: string) => ({
         type: AppActionType.CLICK_CHECK_ANSWER_BTN,
+        value: {
+            answer,
+            id,
+            isAnswered,
+            rate,
+        },
+    }),
+    clickCheckIrrAnswerBtn: (rate: number, id: string, isAnswered: boolean, answer: string) => ({
+        type: AppActionType.CLICK_CHECK_IRR_ANSWER_BTN,
         value: {
             answer,
             id,
@@ -41,11 +53,21 @@ const app = {
     pickIgnoredWordsTab: () => ({
         type: AppActionType.PICK_IGNORED_WORDS_TAB,
     }),
+    pickIrregularWordsTab: () => ({
+        type: AppActionType.PICK_IRREGULAR_WORDS_TAB,
+    }),
     pickTrainingTab: () => ({
         type: AppActionType.PICK_TRAINING_TAB,
     }),
     pickUploadingTab: () => ({
         type: AppActionType.PICK_UPLOADING_TAB,
+    }),
+    setIrrWordEntries: (rate: number, wordEntries: IWordEntry[]) => ({
+        type: AppActionType.SET_IRR_WORD_ENTIRES,
+        value: {
+            rate,
+            wordEntries,
+        },
     }),
     setWordEntries: (rate: number, wordEntries: IWordEntry[]) => ({
         type: AppActionType.SET_WORD_ENTIRES,

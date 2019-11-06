@@ -45,7 +45,7 @@ input[type=text] {
 .tabs-container {
     display: grid;
     height: 30px;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto auto auto;
     justify-content: start;
     box-sizing: content-box;
     bottom: -1px;
@@ -156,14 +156,5 @@ input[type=text] {
 
 .log-item .left {
     color: rgb(83, 83, 83);
-}
-/* ****** */
-
-/* answer-log.tsx styles */
-.answers-log-container .answer-log-item span.true {
-    color: green;
-}
-.answers-log-container .answer-log-item span.false {
-    color: red;
 }
 /* ****** */

@@ -1,31 +1,35 @@
-import "./answers-log.css";
-
-import * as React from "react";
-
 import { IAnswerEntry } from "../../../types/i-answer-entry";
+import styled from 'styled-components';
 
 export interface IAnswersLogComponentComponentProps {
     log: IAnswerEntry[];
 }
 
-export class AnswersLogComponent extends React.Component<IAnswersLogComponentComponentProps> {
-    constructor(props: IAnswersLogComponentComponentProps) {
-        super(props);
-    }
-
-    public render() {
-        const log: IAnswerEntry[] = [...this.props.log].reverse();
-        return (
-            <div className="answers-log-container">
-                <div className="caption">Answers Log:</div>
-                {
-                    log.map((logEntry, index) =>
-                        (<div className="answer-log-item" key={index}>
-                            <span className={logEntry.isAnswered ? "true" : "false"}>{logEntry.orig} -- {logEntry.answer}</span>
-                        </div>),
-                    )
-                }
-            </div>
-        );
-    }
+const Div = styled.div`
+& .caption {
+    color: gray;
 }
+& .log-item span.true {
+    color: green;
+}
+& .log-item span.false {
+    color: red;
+}
+`;
+
+export const AnswersLogComponent = (props: IAnswersLogComponentComponentProps) => {
+    const log: IAnswerEntry[] = [...props.log].reverse();
+
+    return (
+        <Div>
+            <div className="caption">Answers Log:</div>
+            {
+                log.map((logEntry, index) =>
+                (<div className="log-item" key={index}>
+                    <span className={logEntry.isAnswered ? "true" : "false"}>{logEntry.orig} -- {logEntry.answer}</span>
+                </div>),
+                )
+            }
+        </Div>
+    );
+};

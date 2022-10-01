@@ -108,7 +108,7 @@ const appReducer: Reducer = (currentState: IAppReduxState = initialAppReducerSta
             state.wordEntries = action.value.wordEntries;
             return state;
         },
-    };
+    } as any;
 
     // This action helps to keep reducer pure
     const clonnedState: IAppReduxState = JSON.parse(JSON.stringify(currentState));

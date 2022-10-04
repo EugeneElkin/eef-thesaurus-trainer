@@ -1,5 +1,5 @@
-import { IAnswerEntry } from "../../../types/i-answer-entry";
 import styled from 'styled-components';
+import { IAnswerEntry } from "../../types/i-answer-entry";
 
 export interface IAnswersLogComponentComponentProps {
     log: IAnswerEntry[];

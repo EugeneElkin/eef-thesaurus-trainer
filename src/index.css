@@ -91,29 +91,6 @@ input[type=text] {
 }
 /* ****** */
 
-/* uploadin-page.tsx styles */
-.uploading-container textarea {
-    min-width: 300px;
-    width: 500px;
-    max-width: 800px;
-    min-height: 100px;
-    height: 300px;
-    max-height: 400px;
-    margin: 5px 0;
-}
-.uploading-container p {
-    margin: 3px 0;
-}
-.uploading-container p.warn {
-    color: #ac7e01;
-}
-/* ****** */
-
-/* statistics.tsx styles */
-.statistics-container {
-    margin: 0 20px 0 50px;
-}
-/* ****** */
 
 /* training-page.tsx styles */
 .training-container {
@@ -146,15 +123,5 @@ input[type=text] {
 .card-container .check-button {
     padding: 5px 10px;
     text-align: right;
-}
-/* ****** */
-
-/* ignored-words-page.tsx styles */
-.ignored-words-container .log-item {
-    color: green;
-}
-
-.log-item .left {
-    color: rgb(83, 83, 83);
 }
 /* ****** */

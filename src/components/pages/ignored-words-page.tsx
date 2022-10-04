@@ -1,21 +1,28 @@
-import * as React from "react";
+import styled from "styled-components";
 import { IWordEntry } from "../../types/i-word-entry";
 
 interface IIgnoredWordsPageComponentProps {
     ignoredWords: IWordEntry[];
 }
 
-export class IgnoredWordsPageComponent extends React.Component<IIgnoredWordsPageComponentProps> {
+const Div = styled.div`
+& .log-item {
+    color: green;
+}
 
-    public render() {
-        return (
-            <div className="ignored-words-container">
-                {
-                    this.props.ignoredWords.map((ent) =>
-                        (<div className="log-item"><span className="left">{ent.left}</span> -- {ent.right.join(", ")}</div>),
-                    )
-                }
-            </div>
-        );
-    }
+& .log-item .left {
+    color: rgb(83, 83, 83);
+}
+`;
+
+export const IgnoredWordsPageComponent = (props: IIgnoredWordsPageComponentProps) => {
+    return (
+        <Div>
+            {
+                props.ignoredWords.map((ent, index) =>
+                    (<div key={index} className="log-item"><span className="left">{ent.left}</span> -- {ent.right.join(", ")}</div>),
+                )
+            }
+        </Div>
+    )
 }

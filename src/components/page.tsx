@@ -45,10 +45,6 @@ interface IPageComponentDescriptor extends IPageComponentProps, IPageComponentHa
 }
 
 export class PageComponent extends React.Component<IPageComponentDescriptor> {
-    constructor(props: IPageComponentDescriptor) {
-        super(props);
-    }
-
     public componentDidMount() {
         DataTransferService.LoadWordEntries().then((result) => {
             this.props.handlers.setWordEntries(result);
@@ -123,9 +119,9 @@ export class PageComponent extends React.Component<IPageComponentDescriptor> {
 const mapReduxStateToComponentProps: (state: ICombinedReducersEntries) => IPageComponentProps = (state) => {
     return {
         answersLog: state ? state.appReducer.answersLog : [],
-        currentIrrWord: state ? state.appReducer.currentIrrWord: undefined,
+        currentIrrWord: state ? state.appReducer.currentIrrWord : undefined,
         currentQuestion: state ? state.appReducer.currentQuestion : undefined,
-        irrAnswersLog: state? state.appReducer.irrAnswerLog : [],
+        irrAnswersLog: state ? state.appReducer.irrAnswerLog : [],
         selectedTab: state ? state.appReducer.selectedTab : undefined,
         wordEntries: state ? state.appReducer.wordEntries : undefined,
     };

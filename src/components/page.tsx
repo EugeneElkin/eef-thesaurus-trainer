@@ -15,6 +15,7 @@ import { IrregularWordsTrainingPageComponent } from "./pages/irrw-training-page"
 import { DataWorkshopService } from "../services/data-workshop-service";
 import { IRREGULAR_VERBS } from "../data/irregular-verbs";
 import { useEffect, useState } from "react";
+import styled from "styled-components";
 
 interface IPageComponentProps {
     answersLog: IAnswerEntry[];
@@ -44,6 +45,66 @@ interface IPageComponentHandlersWrapper {
 
 interface IPageComponentDescriptor extends IPageComponentProps, IPageComponentHandlersWrapper {
 }
+
+const Div = styled.div`
+& .header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+}
+& .main-container {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 30px 1fr;
+    box-sizing: content-box;
+    & .tabs-container {
+        display: grid;
+        height: 30px;
+        grid-template-columns: auto auto auto auto;
+        justify-content: start;
+        box-sizing: content-box;
+        bottom: -1px;
+        z-index: 2;
+        position: relative;
+        & .grid-item {
+            text-align: center;
+            cursor: pointer;
+            color: #474B24;
+            font-weight: bold;
+            background-color: #C1CAD6;
+            border: 1px solid black;
+            border-collapse: collapse;
+            border-spacing: 0;
+            border-right: none;
+            padding: 5px 10px;
+        }
+        & .grid-item:hover {
+            color: #D16666;
+        }
+        & .grid-item.active {
+            background-color: white;
+            border-bottom: none;
+        }
+        & .grid-item:first-child {
+            border-radius: 8px 0 0 0;
+        }
+        & .grid-item:nth-last-child(1) {
+            border-radius: 0 8px 0 0;
+            border-right: 1px solid black;
+        }
+    }
+    & .content-container {
+        padding: 10px;
+        border: 1px solid black;
+        border-collapse: collapse;
+        border-spacing: 0px;
+        border-radius: 0 8px 8px 8px;
+        box-sizing: content-box;
+        z-index: 0;
+        box-shadow: 3px 3px 2px gray;
+    } 
+}
+`;
 
 export const PageComponent = (props: IPageComponentDescriptor) => {
     useEffect(() => {
@@ -86,23 +147,23 @@ export const PageComponent = (props: IPageComponentDescriptor) => {
     }
 
     return (
-        <React.Fragment>
+        <Div>
             <div className="header-container">
                 <h1>Thesaurus Trainer</h1>
                 <StatisticsComponent wordEntries={props.wordEntries} />
             </div>
             <div className="main-container">
                 <div className="tabs-container">
-                    <div className={"tab-uploading grid-item" +
+                    <div className={"grid-item" +
                         (props.selectedTab === undefined || props.selectedTab === TabType.UPLOADING_TAB ? " active" : "")}
                         onClick={props.handlers.clickUploadingTab}>Uploading</div>
-                    <div className={"tab-training grid-item" +
+                    <div className={"grid-item" +
                         (props.selectedTab === TabType.TRAINING_TAB ? " active" : "")}
                         onClick={props.handlers.clickTrainingTab}>Training</div>
-                    <div className={"tab-ignored-words grid-item" +
+                    <div className={"grid-item" +
                         (props.selectedTab === TabType.IGNOTED_WORDS_TAB ? " active" : "")}
                         onClick={props.handlers.clickIgnoredWordsTab}>Ignored Words</div>
-                    <div className={"tab-irregular-words grid-item" +
+                    <div className={"grid-item" +
                         (props.selectedTab === TabType.IRREGULAR_WORDS_TAB ? " active" : "")}
                         onClick={props.handlers.clickIrregularWordsTab}>Irregular Words (ENG)</div>
                 </div>
@@ -110,7 +171,7 @@ export const PageComponent = (props: IPageComponentDescriptor) => {
                     {detectComponent(props.selectedTab)}
                 </div>
             </div>
-        </React.Fragment>
+        </Div>
     );
 }
 

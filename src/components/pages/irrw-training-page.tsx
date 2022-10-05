@@ -69,14 +69,14 @@ export const IrregularWordsTrainingPageComponent = (props: IIrregularWordsTraini
                     <input
                         type="text"
                         onChange={(e) => handleAnswer1WasChanged(e)}
-                        onKeyPress={(e) => detectEnterAndProceedAnswer(e)}
+                        onKeyDown={(e) => detectEnterAndProceedAnswer(e)}
                         value={answer1.value} />
                 </div>
                 <div className="answer">
                     <input
                         type="text"
                         onChange={(e) => handleAnswer2WasChanged(e)}
-                        onKeyPress={(e) => detectEnterAndProceedAnswer(e)}
+                        onKeyDown={(e) => detectEnterAndProceedAnswer(e)}
                         value={answer2.value} />
                 </div>
                 <div className="check-button">

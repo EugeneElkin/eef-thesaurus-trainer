@@ -35,7 +35,27 @@ export const TrainingPageComponent = (props: ITrainingPageComponentProps) => {
         });
     };
 
-    const detectEnterAndProceedAnswer = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+    const umlautSiblingMap = new Map<string, string>([
+        ["a", "ä"],
+        ["o", "ö"],
+        ["u", "ü"],
+        ["b", "ß"],
+    ]);
+    const umlautSiblingKeys = Array.from(umlautSiblingMap).map(([key, value]) => (key));
+
+    const defineAction = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+        console.log(event.key, event.ctrlKey);
+        if (event.altKey && umlautSiblingKeys.includes(event.key)) {
+            event.stopPropagation();
+            event.preventDefault();
+            const umlaut = umlautSiblingMap.get(event.key);
+            console.log('The fish of my dreams!', umlaut);
+            setAnswer({
+                isValid: true,
+                value: `${answer.value}${umlaut}`,
+            });
+        }
+
         if (event.key === "Enter") {
             proceedAnswer();
         }
@@ -60,7 +80,7 @@ export const TrainingPageComponent = (props: ITrainingPageComponentProps) => {
                         type="text"
                         disabled={typeof props.wordEntry === "undefined"}
                         onChange={(e) => handleAnswerWasChanged(e)}
-                        onKeyPress={(e) => detectEnterAndProceedAnswer(e)}
+                        onKeyDown={(e) => defineAction(e)}
                         value={answer.value} />
                 </div>
                 <div className="check-button">

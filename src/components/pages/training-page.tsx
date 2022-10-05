@@ -17,6 +17,13 @@ export interface ITrainingPageComponentProps {
 export const TrainingPageComponent = (props: ITrainingPageComponentProps) => {
     const [answer, setAnswer] = useState<IValueDescriptor<string>>({ isValid: true, value: "" });
     const randomRight: string = props.wordEntry ? props.wordEntry.right.join(", ") : "-- none --";
+    const umlautSiblingMap = new Map<string, string>([
+        ["a", "ä"],
+        ["o", "ö"],
+        ["u", "ü"],
+        ["b", "ß"],
+    ]);
+    const umlautSiblingKeys = Array.from(umlautSiblingMap).map(([key, value]) => (key));
 
     const proceedAnswer = (): void => {
         if (!props.wordEntry || !answer.value) {
@@ -35,16 +42,7 @@ export const TrainingPageComponent = (props: ITrainingPageComponentProps) => {
         });
     };
 
-    const umlautSiblingMap = new Map<string, string>([
-        ["a", "ä"],
-        ["o", "ö"],
-        ["u", "ü"],
-        ["b", "ß"],
-    ]);
-    const umlautSiblingKeys = Array.from(umlautSiblingMap).map(([key, value]) => (key));
-
     const defineAction = (event: React.KeyboardEvent<HTMLInputElement>): void => {
-        console.log(event.key, event.ctrlKey);
         if (event.altKey && umlautSiblingKeys.includes(event.key)) {
             event.stopPropagation();
             event.preventDefault();

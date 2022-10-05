@@ -21,7 +21,7 @@ export const TrainingPageComponent = (props: ITrainingPageComponentProps) => {
         ["a", "ä"],
         ["o", "ö"],
         ["u", "ü"],
-        ["b", "ß"],
+        ["s", "ß"],
     ]);
     const umlautSiblingKeys = Array.from(umlautSiblingMap).map(([key, value]) => (key));
 

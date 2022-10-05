@@ -31,7 +31,7 @@ export class DataWorkshopService {
             const lines: string[] = words.split("\n");
 
             for (const line of lines) {
-                const sides: string[] = line.split("--");
+                const sides: string[] = line.split(/--|[\\—\\–]/);
                 if (sides.length < 2) {
                     continue;
                 }

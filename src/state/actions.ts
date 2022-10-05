@@ -7,7 +7,7 @@ export interface IAppAction extends Action<number> {
 
 export enum AppActionType {
     CLICK_CHECK_ANSWER_BTN = 'CLICK_CHECK_ANSWER_BTN',
-    CLICK_CHECK_IRR_ANSWER_BTN = 'CLICK_CHECK_ANSWER_BTN',
+    CLICK_CHECK_IRR_ANSWER_BTN = 'CLICK_CHECK_IRR_ANSWER_BTN',
     CLICK_NEW_ROUND_BTN = 'CLICK_NEW_ROUND_BTN',
     CLICK_UPLOAD_BTN = 'CLICK_UPLOAD_BTN',
     PICK_IGNORED_WORDS_TAB = 'PICK_IGNORED_WORDS_TAB',
@@ -19,15 +19,17 @@ export enum AppActionType {
 }
 
 const app = {
-    clickCheckAnswerBtn: (rate: number, id: string, isAnswered: boolean, answer: string) => ({
-        type: AppActionType.CLICK_CHECK_ANSWER_BTN,
-        value: {
-            answer,
-            id,
-            isAnswered,
-            rate,
-        },
-    }),
+    clickCheckAnswerBtn: (rate: number, id: string, isAnswered: boolean, answer: string) => {
+        return ({
+            type: AppActionType.CLICK_CHECK_ANSWER_BTN,
+            value: {
+                answer,
+                id,
+                isAnswered,
+                rate,
+            },
+        })
+    },
     clickCheckIrrAnswerBtn: (rate: number, id: string, isAnswered: boolean, answer: string) => ({
         type: AppActionType.CLICK_CHECK_IRR_ANSWER_BTN,
         value: {

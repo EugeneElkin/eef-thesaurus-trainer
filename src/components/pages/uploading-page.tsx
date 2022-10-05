@@ -7,7 +7,6 @@ interface IUploadingPageComponentProps {
 }
 
 const Div = styled.div`
-/* uploadin-page.tsx styles */
 & textarea {
     min-width: 300px;
     width: 500px;

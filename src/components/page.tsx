@@ -14,6 +14,7 @@ import { StatisticsComponent } from "./statistics";
 import { IrregularWordsTrainingPageComponent } from "./pages/irrw-training-page";
 import { DataWorkshopService } from "../services/data-workshop-service";
 import { IRREGULAR_VERBS } from "../data/irregular-verbs";
+import { useEffect, useState } from "react";
 
 interface IPageComponentProps {
     answersLog: IAnswerEntry[];
@@ -44,76 +45,73 @@ interface IPageComponentHandlersWrapper {
 interface IPageComponentDescriptor extends IPageComponentProps, IPageComponentHandlersWrapper {
 }
 
-export class PageComponent extends React.Component<IPageComponentDescriptor> {
-    public componentDidMount() {
+export const PageComponent = (props: IPageComponentDescriptor) => {
+    useEffect(() => {
         DataTransferService.LoadWordEntries().then((result) => {
-            this.props.handlers.setWordEntries(result);
+            props.handlers.setWordEntries(result);
         });
+        props.handlers.setIrrWordEntries(DataWorkshopService.ParseWords(IRREGULAR_VERBS));
+    }, [props.handlers]);
 
-        this.props.handlers.setIrrWordEntries(DataWorkshopService.ParseWords(IRREGULAR_VERBS));
-    }
-
-    public render() {
-        return (
-            <React.Fragment>
-                <div className="header-container">
-                    <h1>Thesaurus Trainer</h1>
-                    <StatisticsComponent wordEntries={this.props.wordEntries} />
-                </div>
-                <div className="main-container">
-                    <div className="tabs-container">
-                        <div className={"tab-uploading grid-item" +
-                            (this.props.selectedTab === undefined || this.props.selectedTab === TabType.UPLOADING_TAB ? " active" : "")}
-                            onClick={this.props.handlers.clickUploadingTab}>Uploading</div>
-                        <div className={"tab-training grid-item" +
-                            (this.props.selectedTab === TabType.TRAINING_TAB ? " active" : "")}
-                            onClick={this.props.handlers.clickTrainingTab}>Training</div>
-                        <div className={"tab-ignored-words grid-item" +
-                            (this.props.selectedTab === TabType.IGNOTED_WORDS_TAB ? " active" : "")}
-                            onClick={this.props.handlers.clickIgnoredWordsTab}>Ignored Words</div>
-                        <div className={"tab-irregular-words grid-item" +
-                            (this.props.selectedTab === TabType.IRREGULAR_WORDS_TAB ? " active" : "")}
-                            onClick={this.props.handlers.clickIrregularWordsTab}>Irregular Words</div>
-                    </div>
-                    <div className="content-container">
-                        {this.detectComponent(this.props.selectedTab)}
-                    </div>
-                </div>
-            </React.Fragment>
-        );
-    }
-
-    private detectComponent(tabType?: TabType): any {
+    const detectComponent = (tabType?: TabType): React.ReactNode => {
         switch (tabType) {
             case TabType.TRAINING_TAB:
                 return (
                     <TrainingPageComponent
-                        answersLog={this.props.answersLog}
-                        wordEntry={this.props.currentQuestion}
-                        clickCheckButtonHandler={this.props.handlers.clickAnswerButton}
-                        clickNewRoundButtonHandler={this.props.handlers.clickNewRoundButton} />
+                        answersLog={props.answersLog}
+                        wordEntry={props.currentQuestion}
+                        clickCheckButtonHandler={props.handlers.clickAnswerButton}
+                        clickNewRoundButtonHandler={props.handlers.clickNewRoundButton} />
                 );
             case TabType.IRREGULAR_WORDS_TAB:
                 return (
                     <IrregularWordsTrainingPageComponent
-                        answersLog={this.props.irrAnswersLog}
-                        wordEntry={this.props.currentIrrWord}
-                        clickCheckButtonHandler={this.props.handlers.clickIrrAnswerButton}
+                        answersLog={props.irrAnswersLog}
+                        wordEntry={props.currentIrrWord}
+                        clickCheckButtonHandler={props.handlers.clickIrrAnswerButton}
                     />
                 );
             case TabType.IGNOTED_WORDS_TAB:
                 return (
                     <IgnoredWordsPageComponent
-                        ignoredWords={this.props.wordEntries ? this.props.wordEntries.filter((x) => x.isIgnored) : []} />
+                        ignoredWords={props.wordEntries ? props.wordEntries.filter((x) => x.isIgnored) : []} />
                 );
             case TabType.UPLOADING_TAB:
             default:
                 return (
                     <UploadingPageComponent
-                        clickUploadButtonHandler={this.props.handlers.clickUploadWordsButton} />
+                        clickUploadButtonHandler={props.handlers.clickUploadWordsButton} />
                 );
         }
     }
+
+    return (
+        <React.Fragment>
+            <div className="header-container">
+                <h1>Thesaurus Trainer</h1>
+                <StatisticsComponent wordEntries={props.wordEntries} />
+            </div>
+            <div className="main-container">
+                <div className="tabs-container">
+                    <div className={"tab-uploading grid-item" +
+                        (props.selectedTab === undefined || props.selectedTab === TabType.UPLOADING_TAB ? " active" : "")}
+                        onClick={props.handlers.clickUploadingTab}>Uploading</div>
+                    <div className={"tab-training grid-item" +
+                        (props.selectedTab === TabType.TRAINING_TAB ? " active" : "")}
+                        onClick={props.handlers.clickTrainingTab}>Training</div>
+                    <div className={"tab-ignored-words grid-item" +
+                        (props.selectedTab === TabType.IGNOTED_WORDS_TAB ? " active" : "")}
+                        onClick={props.handlers.clickIgnoredWordsTab}>Ignored Words</div>
+                    <div className={"tab-irregular-words grid-item" +
+                        (props.selectedTab === TabType.IRREGULAR_WORDS_TAB ? " active" : "")}
+                        onClick={props.handlers.clickIrregularWordsTab}>Irregular Words (ENG)</div>
+                </div>
+                <div className="content-container">
+                    {detectComponent(props.selectedTab)}
+                </div>
+            </div>
+        </React.Fragment>
+    );
 }
 
 const mapReduxStateToComponentProps: (state: ICombinedReducersEntries) => IPageComponentProps = (state) => {

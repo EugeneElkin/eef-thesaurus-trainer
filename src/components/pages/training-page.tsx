@@ -58,6 +58,7 @@ export const TrainingPageComponent = (props: ITrainingPageComponentProps) => {
                 <div className="answer">
                     <input
                         type="text"
+                        disabled={typeof props.wordEntry === "undefined"}
                         onChange={(e) => handleAnswerWasChanged(e)}
                         onKeyPress={(e) => detectEnterAndProceedAnswer(e)}
                         value={answer.value} />

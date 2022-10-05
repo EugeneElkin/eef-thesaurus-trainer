@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 
 import { IAnswerEntry } from "../../types/i-answer-entry";
 import { IValueDescriptor } from "../../types/i-value-descriptor";
@@ -67,7 +67,7 @@ export const TrainingPageComponent = (props: ITrainingPageComponentProps) => {
     };
 
     return (
-        <Fragment>
+        <>
             <button onClick={props.clickNewRoundButtonHandler}>New round</button>
             <CardContainer>
                 <div className="title">Card</div>
@@ -88,7 +88,7 @@ export const TrainingPageComponent = (props: ITrainingPageComponentProps) => {
                 </div>
             </CardContainer>
             <AnswersLogComponent log={props.answersLog} />
-        </Fragment>
+        </>
     );
 }
 

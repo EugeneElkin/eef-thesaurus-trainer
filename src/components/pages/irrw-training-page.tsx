@@ -2,7 +2,7 @@ import { IValueDescriptor } from "../../types/i-value-descriptor";
 import { IWordEntry } from "../../types/i-word-entry";
 import { IAnswerEntry } from "../../types/i-answer-entry";
 import { AnswersLogComponent } from "../common/answers-log";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { CardContainer } from "../common/card-container";
 
 export interface IIrregularWordsTrainingPageComponentProps {
@@ -61,7 +61,7 @@ export const IrregularWordsTrainingPageComponent = (props: IIrregularWordsTraini
     };
 
     return (
-        <Fragment>
+        <>
             <CardContainer>
                 <div className="title">Card</div>
                 <p className="simple-synonym">{firstForm}</p>
@@ -87,6 +87,6 @@ export const IrregularWordsTrainingPageComponent = (props: IIrregularWordsTraini
                 </div>
             </CardContainer>
             <AnswersLogComponent log={props.answersLog} />
-        </Fragment>
+        </>
     );
 }

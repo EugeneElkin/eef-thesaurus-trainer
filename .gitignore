@@ -1,3 +1,10 @@
+build
+
+# Firebase hosting
+.firebase/
+.firebaserc
+firebase.json
+
 .dist
 
 # Logs

@@ -47,7 +47,6 @@ export const TrainingPageComponent = (props: ITrainingPageComponentProps) => {
             event.stopPropagation();
             event.preventDefault();
             const umlaut = umlautSiblingMap.get(event.key);
-            console.log('The fish of my dreams!', umlaut);
             setAnswer({
                 isValid: true,
                 value: `${answer.value}${umlaut}`,
